@@ -1,0 +1,21 @@
+department_id,department_name,latitude,longitude,Doctor_Count,Average_Experience,Service_Availability,Service_Radius_KM,Catchment_Area_Sq_KM,Service_Coverage_Status
+D001,Cardiology,17.4239,78.4487,23,17.6,Low,5,78.53975,Under-Served
+D002,Neurology,17.3997,78.476,20,19.2,Low,5,78.53975,Under-Served
+D003,Orthopedics,17.3715,78.487,30,15.4,High,5,78.53975,Better Served
+D004,Pediatrics,17.4401,78.498,27,18.3,High,5,78.53975,Better Served
+D005,Oncology,17.39,78.52,33,19.8,High,5,78.53975,Better Served
+D006,ENT,17.455,78.47,21,16.8,Low,5,78.53975,Under-Served
+D007,Dermatology,17.362,78.45,20,16.7,Low,5,78.53975,Under-Served
+D008,General Surgery,17.41,78.53,18,19,Low,5,78.53975,Under-Served
+D009,Urology,17.35,78.5,17,20.8,Low,5,78.53975,Under-Served
+D010,Nephrology,17.43,78.52,22,18.9,Low,5,78.53975,Under-Served
+D011,Gynecology,17.38,78.455,17,17.1,Low,5,78.53975,Under-Served
+D012,Psychiatry,17.465,78.5,27,16.4,High,5,78.53975,Better Served
+D013,Pulmonology,17.405,78.455,29,17,High,5,78.53975,Better Served
+D014,Gastroenterology,17.335,78.475,27,18.4,High,5,78.53975,Better Served
+D015,Emergency,17.42,78.565,34,19.1,High,5,78.53975,Better Served
+D016,Radiology,17.375,78.535,27,16.4,High,5,78.53975,Better Served
+D017,ICU,17.45,78.545,25,19.2,High,5,78.53975,Better Served
+D018,Ophthalmology,17.395,78.505,27,21.1,High,5,78.53975,Better Served
+D019,Endocrinology,17.345,78.54,32,15.2,High,5,78.53975,Better Served
+D020,Dental,17.47,78.455,24,18.8,Low,5,78.53975,Under-Served

@@ -1,0 +1,21 @@
+department_id,department_name,latitude,longitude
+D001,Cardiology,17.4239,78.4487
+D002,Neurology,17.3997,78.476
+D003,Orthopedics,17.3715,78.487
+D004,Pediatrics,17.4401,78.498
+D005,Oncology,17.39,78.52
+D006,ENT,17.455,78.47
+D007,Dermatology,17.362,78.45
+D008,General Surgery,17.41,78.53
+D009,Urology,17.35,78.5
+D010,Nephrology,17.43,78.52
+D011,Gynecology,17.38,78.455
+D012,Psychiatry,17.465,78.5
+D013,Pulmonology,17.405,78.455
+D014,Gastroenterology,17.335,78.475
+D015,Emergency,17.42,78.565
+D016,Radiology,17.375,78.535
+D017,ICU,17.45,78.545
+D018,Ophthalmology,17.395,78.505
+D019,Endocrinology,17.345,78.54
+D020,Dental,17.47,78.455

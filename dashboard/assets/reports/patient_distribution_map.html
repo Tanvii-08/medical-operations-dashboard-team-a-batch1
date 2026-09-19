@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_c3c50c4208c4ced1ad86c6cda2ddb194 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body>
+    
+    
+<div style="position: fixed; top: 10px; left: 60px; z-index: 9999;
+            background-color: white; padding: 8px 14px; border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3); font-size: 16px; font-weight: 600;">
+    Patient Distribution by Department &mdash; Geographic Density Map
+</div>
+    
+<div style="position: fixed; bottom: 30px; left: 10px; z-index: 9999;
+            background-color: white; padding: 10px 14px; border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3); font-size: 12px; line-height: 1.6;">
+    <b>Legend</b><br>
+    <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#d62728;margin-right:6px;"></span>
+    Top-5 patient volume department<br>
+    <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#1f77b4;margin-right:6px;"></span>
+    Other departments<br>
+    <span style="display:inline-block;width:22px;height:8px;background:linear-gradient(to right, #fffb00, #ff0000);margin-right:6px;vertical-align:middle;"></span>
+    Density heatmap (patient volume)
+</div>
+    
+            <div class="folium-map" id="map_c3c50c4208c4ced1ad86c6cda2ddb194" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_c3c50c4208c4ced1ad86c6cda2ddb194 = L.map(
+                "map_c3c50c4208c4ced1ad86c6cda2ddb194",
+                {
+                    center: [17.403610000000004, 78.49648499999999],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_e7469b58285eddbfc471d10712392f73 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e7469b58285eddbfc471d10712392f73.addTo(map_c3c50c4208c4ced1ad86c6cda2ddb194);
+        
+    
+            var marker_2aa1ec69e33996d7c933ad48c8af22f4 = L.marker(
+                [17.403610000000004, 78.49648499999999],
+                {
+}
+            ).addTo(map_c3c50c4208c4ced1ad86c6cda2ddb194);
+        
+    
+            var div_icon_0ad173f3e15af7140e3f46da18725178 = L.divIcon({
+  "html": "",
+  "className": "empty",
+});
+        
+    
+                marker_2aa1ec69e33996d7c933ad48c8af22f4.setIcon(div_icon_0ad173f3e15af7140e3f46da18725178);
+            
+    
+            var feature_group_dde65be15020fe2f74675761f24cc256 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var heat_map_b6aa73a5d9afa4f424c1944f0b8b5285 = L.heatLayer(
+                [[17.42, 78.565, 335], [17.39, 78.52, 331], [17.3715, 78.487, 320], [17.345, 78.54, 319], [17.405, 78.455, 317], [17.4401, 78.498, 277], [17.395, 78.505, 268], [17.375, 78.535, 266], [17.335, 78.475, 260], [17.47, 78.455, 253], [17.45, 78.545, 253], [17.465, 78.5, 253], [17.4239, 78.4487, 233], [17.43, 78.52, 218], [17.455, 78.47, 215], [17.3997, 78.476, 200], [17.362, 78.45, 179], [17.41, 78.53, 175], [17.35, 78.5, 169], [17.38, 78.455, 159]],
+                {
+  "minOpacity": 0.35,
+  "maxZoom": 13,
+  "radius": 28,
+  "blur": 20,
+}
+            );
+        
+    
+            heat_map_b6aa73a5d9afa4f424c1944f0b8b5285.addTo(feature_group_dde65be15020fe2f74675761f24cc256);
+        
+    
+            feature_group_dde65be15020fe2f74675761f24cc256.addTo(map_c3c50c4208c4ced1ad86c6cda2ddb194);
+        
+    
+            var feature_group_835365d731914629a17b612ddc760be2 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_b087fd169b27982d87cbc15c76272b74 = L.circleMarker(
+                [17.42, 78.565],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d62728", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 22.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_3db8dfa425c656988d23ac30288623fa = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a372ece0ddc8234ff800063ebbdddc8f = $(`<div id="html_a372ece0ddc8234ff800063ebbdddc8f" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Emergency</b><br>         <span style="color:#555;">Dept ID: D015</span><br><br>         Patients: <b>335</b><br>         Admissions: <b>335</b><br>         Share of total: <b>6.7%</b><br>         <span style="color:#d62728; font-weight:600;">Top-5 volume department</span>     </div>     </div>`)[0];
+                popup_3db8dfa425c656988d23ac30288623fa.setContent(html_a372ece0ddc8234ff800063ebbdddc8f);
+            
+        
+
+        circle_marker_b087fd169b27982d87cbc15c76272b74.bindPopup(popup_3db8dfa425c656988d23ac30288623fa)
+        ;
+
+        
+    
+    
+            circle_marker_b087fd169b27982d87cbc15c76272b74.bindTooltip(
+                `<div>
+                     Emergency — 335 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c9dff84335b71a6dc73e0ba83ede8a7f = L.circleMarker(
+                [17.39, 78.52],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d62728", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 21.636363636363637, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_115c1994fe55c7332fa56706bed94a12 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_f32644282c4934543a2056c1d396d066 = $(`<div id="html_f32644282c4934543a2056c1d396d066" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Oncology</b><br>         <span style="color:#555;">Dept ID: D005</span><br><br>         Patients: <b>331</b><br>         Admissions: <b>331</b><br>         Share of total: <b>6.6%</b><br>         <span style="color:#d62728; font-weight:600;">Top-5 volume department</span>     </div>     </div>`)[0];
+                popup_115c1994fe55c7332fa56706bed94a12.setContent(html_f32644282c4934543a2056c1d396d066);
+            
+        
+
+        circle_marker_c9dff84335b71a6dc73e0ba83ede8a7f.bindPopup(popup_115c1994fe55c7332fa56706bed94a12)
+        ;
+
+        
+    
+    
+            circle_marker_c9dff84335b71a6dc73e0ba83ede8a7f.bindTooltip(
+                `<div>
+                     Oncology — 331 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_04cfd28ef12b7947eb43db2b28dd7d0e = L.circleMarker(
+                [17.3715, 78.487],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d62728", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.636363636363637, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_ae9827055a58aba138d68ff35e755fc3 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_1dc7ddeaa80d93497a6c3c3d1123d51f = $(`<div id="html_1dc7ddeaa80d93497a6c3c3d1123d51f" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Orthopedics</b><br>         <span style="color:#555;">Dept ID: D003</span><br><br>         Patients: <b>320</b><br>         Admissions: <b>320</b><br>         Share of total: <b>6.4%</b><br>         <span style="color:#d62728; font-weight:600;">Top-5 volume department</span>     </div>     </div>`)[0];
+                popup_ae9827055a58aba138d68ff35e755fc3.setContent(html_1dc7ddeaa80d93497a6c3c3d1123d51f);
+            
+        
+
+        circle_marker_04cfd28ef12b7947eb43db2b28dd7d0e.bindPopup(popup_ae9827055a58aba138d68ff35e755fc3)
+        ;
+
+        
+    
+    
+            circle_marker_04cfd28ef12b7947eb43db2b28dd7d0e.bindTooltip(
+                `<div>
+                     Orthopedics — 320 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dc263d2f9596547882b00d688504706c = L.circleMarker(
+                [17.345, 78.54],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d62728", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.545454545454547, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_051020541af2d2dfd033031667fc9e0b = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_241d185043d9d0df4d2c108b43b9d9dc = $(`<div id="html_241d185043d9d0df4d2c108b43b9d9dc" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Endocrinology</b><br>         <span style="color:#555;">Dept ID: D019</span><br><br>         Patients: <b>319</b><br>         Admissions: <b>319</b><br>         Share of total: <b>6.4%</b><br>         <span style="color:#d62728; font-weight:600;">Top-5 volume department</span>     </div>     </div>`)[0];
+                popup_051020541af2d2dfd033031667fc9e0b.setContent(html_241d185043d9d0df4d2c108b43b9d9dc);
+            
+        
+
+        circle_marker_dc263d2f9596547882b00d688504706c.bindPopup(popup_051020541af2d2dfd033031667fc9e0b)
+        ;
+
+        
+    
+    
+            circle_marker_dc263d2f9596547882b00d688504706c.bindTooltip(
+                `<div>
+                     Endocrinology — 319 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ee451a90e6725848836090e2f878b0b8 = L.circleMarker(
+                [17.405, 78.455],
+                {"bubblingMouseEvents": true, "color": "#d62728", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d62728", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.363636363636363, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_95b9730e400350680becb696625052e6 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_f81539034e1b0edcb63361a46849d815 = $(`<div id="html_f81539034e1b0edcb63361a46849d815" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Pulmonology</b><br>         <span style="color:#555;">Dept ID: D013</span><br><br>         Patients: <b>317</b><br>         Admissions: <b>317</b><br>         Share of total: <b>6.3%</b><br>         <span style="color:#d62728; font-weight:600;">Top-5 volume department</span>     </div>     </div>`)[0];
+                popup_95b9730e400350680becb696625052e6.setContent(html_f81539034e1b0edcb63361a46849d815);
+            
+        
+
+        circle_marker_ee451a90e6725848836090e2f878b0b8.bindPopup(popup_95b9730e400350680becb696625052e6)
+        ;
+
+        
+    
+    
+            circle_marker_ee451a90e6725848836090e2f878b0b8.bindTooltip(
+                `<div>
+                     Pulmonology — 317 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_748d42b8c6f71e2c48d0244dcc22a51b = L.circleMarker(
+                [17.4401, 78.498],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.727272727272727, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_3e4c8848e040613845f86e84f7e60410 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_c224ab8c33113d0011e755cd3927dbd1 = $(`<div id="html_c224ab8c33113d0011e755cd3927dbd1" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Pediatrics</b><br>         <span style="color:#555;">Dept ID: D004</span><br><br>         Patients: <b>277</b><br>         Admissions: <b>277</b><br>         Share of total: <b>5.5%</b><br>              </div>     </div>`)[0];
+                popup_3e4c8848e040613845f86e84f7e60410.setContent(html_c224ab8c33113d0011e755cd3927dbd1);
+            
+        
+
+        circle_marker_748d42b8c6f71e2c48d0244dcc22a51b.bindPopup(popup_3e4c8848e040613845f86e84f7e60410)
+        ;
+
+        
+    
+    
+            circle_marker_748d42b8c6f71e2c48d0244dcc22a51b.bindTooltip(
+                `<div>
+                     Pediatrics — 277 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8894823604c5c0e246a58d996e51f546 = L.circleMarker(
+                [17.395, 78.505],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.909090909090908, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_4f5e4114035839473400d62a09872fec = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_94054a89ce8f2de5b1af7938eba254eb = $(`<div id="html_94054a89ce8f2de5b1af7938eba254eb" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Ophthalmology</b><br>         <span style="color:#555;">Dept ID: D018</span><br><br>         Patients: <b>268</b><br>         Admissions: <b>268</b><br>         Share of total: <b>5.4%</b><br>              </div>     </div>`)[0];
+                popup_4f5e4114035839473400d62a09872fec.setContent(html_94054a89ce8f2de5b1af7938eba254eb);
+            
+        
+
+        circle_marker_8894823604c5c0e246a58d996e51f546.bindPopup(popup_4f5e4114035839473400d62a09872fec)
+        ;
+
+        
+    
+    
+            circle_marker_8894823604c5c0e246a58d996e51f546.bindTooltip(
+                `<div>
+                     Ophthalmology — 268 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f700ea88c511596f0058c3f48e74a167 = L.circleMarker(
+                [17.375, 78.535],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.727272727272727, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_98ce7dfa8a3605c00c8eb3addc2b69ed = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_07c8528bf9ba0417f74f6842caad4949 = $(`<div id="html_07c8528bf9ba0417f74f6842caad4949" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Radiology</b><br>         <span style="color:#555;">Dept ID: D016</span><br><br>         Patients: <b>266</b><br>         Admissions: <b>266</b><br>         Share of total: <b>5.3%</b><br>              </div>     </div>`)[0];
+                popup_98ce7dfa8a3605c00c8eb3addc2b69ed.setContent(html_07c8528bf9ba0417f74f6842caad4949);
+            
+        
+
+        circle_marker_f700ea88c511596f0058c3f48e74a167.bindPopup(popup_98ce7dfa8a3605c00c8eb3addc2b69ed)
+        ;
+
+        
+    
+    
+            circle_marker_f700ea88c511596f0058c3f48e74a167.bindTooltip(
+                `<div>
+                     Radiology — 266 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bc5882695d926d2f70cbe3c2d758c930 = L.circleMarker(
+                [17.335, 78.475],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.181818181818182, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_e70077647375e98199220a9a7cf3a65e = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_d200f85525e1c9579855e389785afa31 = $(`<div id="html_d200f85525e1c9579855e389785afa31" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Gastroenterology</b><br>         <span style="color:#555;">Dept ID: D014</span><br><br>         Patients: <b>260</b><br>         Admissions: <b>260</b><br>         Share of total: <b>5.2%</b><br>              </div>     </div>`)[0];
+                popup_e70077647375e98199220a9a7cf3a65e.setContent(html_d200f85525e1c9579855e389785afa31);
+            
+        
+
+        circle_marker_bc5882695d926d2f70cbe3c2d758c930.bindPopup(popup_e70077647375e98199220a9a7cf3a65e)
+        ;
+
+        
+    
+    
+            circle_marker_bc5882695d926d2f70cbe3c2d758c930.bindTooltip(
+                `<div>
+                     Gastroenterology — 260 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a12c30f19cd8df742723fbaefd9c2850 = L.circleMarker(
+                [17.47, 78.455],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.545454545454545, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_77b0151737faf229a9b9d6e92b567bbb = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_21132710d5d52676bcc56227d7d6df10 = $(`<div id="html_21132710d5d52676bcc56227d7d6df10" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Dental</b><br>         <span style="color:#555;">Dept ID: D020</span><br><br>         Patients: <b>253</b><br>         Admissions: <b>253</b><br>         Share of total: <b>5.1%</b><br>              </div>     </div>`)[0];
+                popup_77b0151737faf229a9b9d6e92b567bbb.setContent(html_21132710d5d52676bcc56227d7d6df10);
+            
+        
+
+        circle_marker_a12c30f19cd8df742723fbaefd9c2850.bindPopup(popup_77b0151737faf229a9b9d6e92b567bbb)
+        ;
+
+        
+    
+    
+            circle_marker_a12c30f19cd8df742723fbaefd9c2850.bindTooltip(
+                `<div>
+                     Dental — 253 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3bbd1eac42c7beff8e24e2b02f4dba8e = L.circleMarker(
+                [17.45, 78.545],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.545454545454545, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_d77cdc73b2aa71db998f51530fa4155d = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_b625a514c45f5f325928e9a1af46c155 = $(`<div id="html_b625a514c45f5f325928e9a1af46c155" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">ICU</b><br>         <span style="color:#555;">Dept ID: D017</span><br><br>         Patients: <b>253</b><br>         Admissions: <b>253</b><br>         Share of total: <b>5.1%</b><br>              </div>     </div>`)[0];
+                popup_d77cdc73b2aa71db998f51530fa4155d.setContent(html_b625a514c45f5f325928e9a1af46c155);
+            
+        
+
+        circle_marker_3bbd1eac42c7beff8e24e2b02f4dba8e.bindPopup(popup_d77cdc73b2aa71db998f51530fa4155d)
+        ;
+
+        
+    
+    
+            circle_marker_3bbd1eac42c7beff8e24e2b02f4dba8e.bindTooltip(
+                `<div>
+                     ICU — 253 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9311cd1e2f911f7d5c66d4a7da76a82d = L.circleMarker(
+                [17.465, 78.5],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.545454545454545, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_11c84288927ec721b8d0cf96c5d4e8a3 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_21f410b2edbe3201149a1495dd5896d0 = $(`<div id="html_21f410b2edbe3201149a1495dd5896d0" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Psychiatry</b><br>         <span style="color:#555;">Dept ID: D012</span><br><br>         Patients: <b>253</b><br>         Admissions: <b>253</b><br>         Share of total: <b>5.1%</b><br>              </div>     </div>`)[0];
+                popup_11c84288927ec721b8d0cf96c5d4e8a3.setContent(html_21f410b2edbe3201149a1495dd5896d0);
+            
+        
+
+        circle_marker_9311cd1e2f911f7d5c66d4a7da76a82d.bindPopup(popup_11c84288927ec721b8d0cf96c5d4e8a3)
+        ;
+
+        
+    
+    
+            circle_marker_9311cd1e2f911f7d5c66d4a7da76a82d.bindTooltip(
+                `<div>
+                     Psychiatry — 253 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9d1e2d03dd6ae9b191ed1413fa52c9dd = L.circleMarker(
+                [17.4239, 78.4487],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.727272727272727, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_50c9c11667e10412cb8f598ca1a8ec59 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_cadebd8408f7aef2c4890333e2270a87 = $(`<div id="html_cadebd8408f7aef2c4890333e2270a87" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Cardiology</b><br>         <span style="color:#555;">Dept ID: D001</span><br><br>         Patients: <b>233</b><br>         Admissions: <b>233</b><br>         Share of total: <b>4.7%</b><br>              </div>     </div>`)[0];
+                popup_50c9c11667e10412cb8f598ca1a8ec59.setContent(html_cadebd8408f7aef2c4890333e2270a87);
+            
+        
+
+        circle_marker_9d1e2d03dd6ae9b191ed1413fa52c9dd.bindPopup(popup_50c9c11667e10412cb8f598ca1a8ec59)
+        ;
+
+        
+    
+    
+            circle_marker_9d1e2d03dd6ae9b191ed1413fa52c9dd.bindTooltip(
+                `<div>
+                     Cardiology — 233 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_83f5032cacbd5fd4a47446521fb67852 = L.circleMarker(
+                [17.43, 78.52],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.363636363636363, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_24cfb06942657706f621390f8d7f02b4 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_efa08aee9238c2f09dcf9d226c5570d5 = $(`<div id="html_efa08aee9238c2f09dcf9d226c5570d5" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Nephrology</b><br>         <span style="color:#555;">Dept ID: D010</span><br><br>         Patients: <b>218</b><br>         Admissions: <b>218</b><br>         Share of total: <b>4.4%</b><br>              </div>     </div>`)[0];
+                popup_24cfb06942657706f621390f8d7f02b4.setContent(html_efa08aee9238c2f09dcf9d226c5570d5);
+            
+        
+
+        circle_marker_83f5032cacbd5fd4a47446521fb67852.bindPopup(popup_24cfb06942657706f621390f8d7f02b4)
+        ;
+
+        
+    
+    
+            circle_marker_83f5032cacbd5fd4a47446521fb67852.bindTooltip(
+                `<div>
+                     Nephrology — 218 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4d1aaed311976b9708bfd5552fddc3b8 = L.circleMarker(
+                [17.455, 78.47],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.09090909090909, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_2ccf4923c3bfd68194d6f7b3fcd87aa7 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_19f961a9f4c8dabcf4cea6a9a36ddd10 = $(`<div id="html_19f961a9f4c8dabcf4cea6a9a36ddd10" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">ENT</b><br>         <span style="color:#555;">Dept ID: D006</span><br><br>         Patients: <b>215</b><br>         Admissions: <b>215</b><br>         Share of total: <b>4.3%</b><br>              </div>     </div>`)[0];
+                popup_2ccf4923c3bfd68194d6f7b3fcd87aa7.setContent(html_19f961a9f4c8dabcf4cea6a9a36ddd10);
+            
+        
+
+        circle_marker_4d1aaed311976b9708bfd5552fddc3b8.bindPopup(popup_2ccf4923c3bfd68194d6f7b3fcd87aa7)
+        ;
+
+        
+    
+    
+            circle_marker_4d1aaed311976b9708bfd5552fddc3b8.bindTooltip(
+                `<div>
+                     ENT — 215 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e2f56127f6a1e303f5c1995205b81bfa = L.circleMarker(
+                [17.3997, 78.476],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.727272727272727, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_887fdd8aa1034ea13ab2dd5c7278c091 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_79d0eb2a579587a27ae2db186ed7ee39 = $(`<div id="html_79d0eb2a579587a27ae2db186ed7ee39" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Neurology</b><br>         <span style="color:#555;">Dept ID: D002</span><br><br>         Patients: <b>200</b><br>         Admissions: <b>200</b><br>         Share of total: <b>4.0%</b><br>              </div>     </div>`)[0];
+                popup_887fdd8aa1034ea13ab2dd5c7278c091.setContent(html_79d0eb2a579587a27ae2db186ed7ee39);
+            
+        
+
+        circle_marker_e2f56127f6a1e303f5c1995205b81bfa.bindPopup(popup_887fdd8aa1034ea13ab2dd5c7278c091)
+        ;
+
+        
+    
+    
+            circle_marker_e2f56127f6a1e303f5c1995205b81bfa.bindTooltip(
+                `<div>
+                     Neurology — 200 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_371c5773e6362ae97c5cd6f813e2fab8 = L.circleMarker(
+                [17.362, 78.45],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.818181818181818, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_fb08a5442cf2a1c35f6270a2c928d993 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_28e018358e57c49ba6c327940927d36e = $(`<div id="html_28e018358e57c49ba6c327940927d36e" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Dermatology</b><br>         <span style="color:#555;">Dept ID: D007</span><br><br>         Patients: <b>179</b><br>         Admissions: <b>179</b><br>         Share of total: <b>3.6%</b><br>              </div>     </div>`)[0];
+                popup_fb08a5442cf2a1c35f6270a2c928d993.setContent(html_28e018358e57c49ba6c327940927d36e);
+            
+        
+
+        circle_marker_371c5773e6362ae97c5cd6f813e2fab8.bindPopup(popup_fb08a5442cf2a1c35f6270a2c928d993)
+        ;
+
+        
+    
+    
+            circle_marker_371c5773e6362ae97c5cd6f813e2fab8.bindTooltip(
+                `<div>
+                     Dermatology — 179 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f9c1365b954f2db4eaabaaebb9e5fb00 = L.circleMarker(
+                [17.41, 78.53],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.454545454545455, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_e25ed7b8013c78dae0a29aae822caba5 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_21864a73fecbbe293abc0169371a3d40 = $(`<div id="html_21864a73fecbbe293abc0169371a3d40" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">General Surgery</b><br>         <span style="color:#555;">Dept ID: D008</span><br><br>         Patients: <b>175</b><br>         Admissions: <b>175</b><br>         Share of total: <b>3.5%</b><br>              </div>     </div>`)[0];
+                popup_e25ed7b8013c78dae0a29aae822caba5.setContent(html_21864a73fecbbe293abc0169371a3d40);
+            
+        
+
+        circle_marker_f9c1365b954f2db4eaabaaebb9e5fb00.bindPopup(popup_e25ed7b8013c78dae0a29aae822caba5)
+        ;
+
+        
+    
+    
+            circle_marker_f9c1365b954f2db4eaabaaebb9e5fb00.bindTooltip(
+                `<div>
+                     General Surgery — 175 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_955c2a2440c1666a468e275191177ff7 = L.circleMarker(
+                [17.35, 78.5],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.909090909090909, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_a317dc47ff2e5a2d5eb85ee3d04e3915 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_7713cb093204818aacb8362ed4ce119b = $(`<div id="html_7713cb093204818aacb8362ed4ce119b" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Urology</b><br>         <span style="color:#555;">Dept ID: D009</span><br><br>         Patients: <b>169</b><br>         Admissions: <b>169</b><br>         Share of total: <b>3.4%</b><br>              </div>     </div>`)[0];
+                popup_a317dc47ff2e5a2d5eb85ee3d04e3915.setContent(html_7713cb093204818aacb8362ed4ce119b);
+            
+        
+
+        circle_marker_955c2a2440c1666a468e275191177ff7.bindPopup(popup_a317dc47ff2e5a2d5eb85ee3d04e3915)
+        ;
+
+        
+    
+    
+            circle_marker_955c2a2440c1666a468e275191177ff7.bindTooltip(
+                `<div>
+                     Urology — 169 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c2099bf63baac0ee0b90b92373e855e9 = L.circleMarker(
+                [17.38, 78.455],
+                {"bubblingMouseEvents": true, "color": "#1f77b4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1f77b4", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_835365d731914629a17b612ddc760be2);
+        
+    
+        var popup_2aac9e807793e698197fce665fc25e42 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_67289b990363c6707e42e1c9c82aca2b = $(`<div id="html_67289b990363c6707e42e1c9c82aca2b" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial, sans-serif; font-size: 13px; min-width: 190px;">         <b style="font-size:14px;">Gynecology</b><br>         <span style="color:#555;">Dept ID: D011</span><br><br>         Patients: <b>159</b><br>         Admissions: <b>159</b><br>         Share of total: <b>3.2%</b><br>              </div>     </div>`)[0];
+                popup_2aac9e807793e698197fce665fc25e42.setContent(html_67289b990363c6707e42e1c9c82aca2b);
+            
+        
+
+        circle_marker_c2099bf63baac0ee0b90b92373e855e9.bindPopup(popup_2aac9e807793e698197fce665fc25e42)
+        ;
+
+        
+    
+    
+            circle_marker_c2099bf63baac0ee0b90b92373e855e9.bindTooltip(
+                `<div>
+                     Gynecology — 159 patients
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_835365d731914629a17b612ddc760be2.addTo(map_c3c50c4208c4ced1ad86c6cda2ddb194);
+        
+    
+            var layer_control_3f9d223d628507888df14a11d775053d_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_e7469b58285eddbfc471d10712392f73,
+                },
+                overlays :  {
+                    "Patient Density (Heatmap)" : feature_group_dde65be15020fe2f74675761f24cc256,
+                    "Department Markers" : feature_group_835365d731914629a17b612ddc760be2,
+                },
+            };
+            let layer_control_3f9d223d628507888df14a11d775053d = L.control.layers(
+                layer_control_3f9d223d628507888df14a11d775053d_layers.base_layers,
+                layer_control_3f9d223d628507888df14a11d775053d_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_c3c50c4208c4ced1ad86c6cda2ddb194);
+
+        
+</script>
+</html>

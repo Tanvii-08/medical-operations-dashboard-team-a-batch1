@@ -1,0 +1,21 @@
+Department_ID,department_name,Admissions,Total_Staff,Staff_Share_Percent,Patients_per_Staff
+D020,Dental,253,12,1.56,21.08
+D018,Ophthalmology,268,16,2.09,16.75
+D016,Radiology,266,16,2.09,16.62
+D019,Endocrinology,319,22,2.87,14.5
+D007,Dermatology,179,14,1.83,12.79
+D006,ENT,215,20,2.61,10.75
+D013,Pulmonology,317,32,4.17,9.91
+D014,Gastroenterology,260,32,4.17,8.12
+D012,Psychiatry,253,35,4.56,7.23
+D010,Nephrology,218,32,4.17,6.81
+D003,Orthopedics,320,48,6.26,6.67
+D005,Oncology,331,50,6.52,6.62
+D009,Urology,169,28,3.65,6.04
+D002,Neurology,200,40,5.22,5.0
+D004,Pediatrics,277,60,7.82,4.62
+D001,Cardiology,233,55,7.17,4.24
+D015,Emergency,335,85,11.08,3.94
+D011,Gynecology,159,42,5.48,3.79
+D017,ICU,253,70,9.13,3.61
+D008,General Surgery,175,58,7.56,3.02

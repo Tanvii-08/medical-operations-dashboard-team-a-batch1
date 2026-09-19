@@ -1,0 +1,21 @@
+department_id,department_name,Total_Staff
+D001,Cardiology,55
+D002,Neurology,40
+D003,Orthopedics,48
+D004,Pediatrics,60
+D005,Oncology,50
+D006,ENT,20
+D007,Dermatology,14
+D008,General Surgery,58
+D009,Urology,28
+D010,Nephrology,32
+D011,Gynecology,42
+D012,Psychiatry,35
+D013,Pulmonology,32
+D014,Gastroenterology,32
+D015,Emergency,85
+D016,Radiology,16
+D017,ICU,70
+D018,Ophthalmology,16
+D019,Endocrinology,22
+D020,Dental,12

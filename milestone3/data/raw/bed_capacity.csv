@@ -1,0 +1,21 @@
+department_id,department_name,Total_Beds
+D001,Cardiology,40
+D002,Neurology,30
+D003,Orthopedics,35
+D004,Pediatrics,45
+D005,Oncology,35
+D006,ENT,15
+D007,Dermatology,10
+D008,General Surgery,40
+D009,Urology,20
+D010,Nephrology,25
+D011,Gynecology,30
+D012,Psychiatry,25
+D013,Pulmonology,25
+D014,Gastroenterology,25
+D015,Emergency,60
+D016,Radiology,10
+D017,ICU,50
+D018,Ophthalmology,12
+D019,Endocrinology,18
+D020,Dental,10
